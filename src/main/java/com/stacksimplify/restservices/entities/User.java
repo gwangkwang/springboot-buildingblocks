@@ -11,46 +11,49 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-
+import org.springframework.hateoas.RepresentationModel;
 
 //Entity
 @Entity
-@Table(name="CUSTOM_USER")
-public class User {
-	
+@Table(name = "CUSTOM_USER")
+public class User extends RepresentationModel<User> {
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
-	@NotEmpty(message="Username is Mandatory field. Please provide username")
-	@Column(name="USER_NAME", length=50, nullable=false, unique=true)
+
+	@NotEmpty(message = "Username is Mandatory field. Please provide username")
+	@Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
 	private String username;
-	
-	@Size(min=2, message="FirstName should have at least 2 characters")
-	@Column(name="FIRST_NAME", length=50, nullable=false)
+
+	@Size(min = 2, message = "FirstName should have at least 2 characters")
+	@Column(name = "FIRST_NAME", length = 50, nullable = false)
 	private String firstname;
-	
-	@Column(name="LAST_NAME", length=50, nullable=false)
+
+	@Column(name = "LAST_NAME", length = 50, nullable = false)
 	private String lastname;
-	
-	@Column(name="EMAIL_ADDRESS", length=50, nullable=false)
+
+	@Column(name = "EMAIL_ADDRESS", length = 50, nullable = false)
 	private String email;
-	
-	@Column(name="ROLE", length=50, nullable=false)
+
+	@Column(name = "ROLE", length = 50, nullable = false)
 	private String role;
-	
-	@Column(name="SSN", length=50, nullable=false, unique=true)
+
+	@Column(name = "SSN", length = 50, nullable = false, unique = true)
 	private String ssn;
 
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy = "user")
 	private List<Order> orders;
-	
-	//No Argument Constructor
+
+	// No Argument Constructor
 	public User() {
 	}
 
-	//Fields Constructor
-	public User(Long id, String username, String firstname, String lastname, String email, String role, String ssn) {
+	// Fields Constructor
+	public User(Long id,
+			@NotEmpty(message = "Username is Mandatory field. Please provide username") String username,
+			@Size(min = 2, message = "FirstName should have at least 2 characters") String firstname, String lastname,
+			String email, String role, String ssn, List<Order> orders) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -59,9 +62,10 @@ public class User {
 		this.email = email;
 		this.role = role;
 		this.ssn = ssn;
+		this.orders = orders;
 	}
 
-	//Getters and Setters
+	// Getters and Setters
 	public Long getId() {
 		return id;
 	}
@@ -126,16 +130,10 @@ public class User {
 		this.orders = order;
 	}
 
-	//To String - (Optional required for bean logging)
+	// To String - (Optional required for bean logging)
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", firstname=" + firstname + ", lastname=" + lastname
 				+ ", email=" + email + ", role=" + role + ", ssn=" + ssn + ", orders=" + orders + "]";
 	}
-
-	
-	
-
-	
-	
 }
