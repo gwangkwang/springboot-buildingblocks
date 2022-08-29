@@ -60,7 +60,7 @@ public class OrderController {
 	
 	//getOrderByOrderId
 	@GetMapping("/{userid}/orders/{orderid}")
-	public Optional<Order> getOrderByOrderId(@PathVariable Long userid, @PathVariable Long orderid) throws UserNotFoundException, OrderNotFoundException {
+	public Order getOrderByOrderId(@PathVariable Long userid, @PathVariable Long orderid) throws UserNotFoundException, OrderNotFoundException {
 		Optional<User> userOptional = userRepository.findById(userid);
 		
 		if(!userOptional.isPresent()) {
@@ -73,6 +73,6 @@ public class OrderController {
 			throw new OrderNotFoundException("Order Not Found");
 		}
 		
-		return orderOptional;
+		return orderOptional.get();
 	}
 }
